@@ -1,12 +1,19 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.fabricmc.example.mixin",
+  "package": "com.github.voxxin.betagamerules.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "LivingEntityMixin",
+    "PlayerInventoryMixin",
+    "PlayerMixin",
+    "WorldMixin",
+    "WorldPropertiesMixin",
+    "block.FireMixin",
+    "block.SnowBlockMixin"
   ],
   "client": [
-    "ExampleMixin"
+    "MinecraftMixin"
   ],
   "injectors": {
     "defaultRequire": 1
