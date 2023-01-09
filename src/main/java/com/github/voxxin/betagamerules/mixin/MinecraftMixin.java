@@ -23,10 +23,9 @@ public class MinecraftMixin {
     private void setKeybinds(CallbackInfo ci) {
         if (Keyboard.getEventKey() == 1) {
             System.out.println("HELLO?!");
-            //((IProperties)this.world).getProperties().setRaining(true);
-            System.out.println((((IGamerules) ((IProperties) this.world).getProperties())).betaGamerules_getDoDaylightCycle());
-            (((IGamerules) ((IProperties) this.world).getProperties())).betaGamerules_setDoDaylightCycle(!(((IGamerules) ((IProperties) this.world).getProperties())).betaGamerules_getDoDaylightCycle());
-            System.out.println((((IGamerules) ((IProperties) this.world).getProperties())).betaGamerules_getDoDaylightCycle());
+
+            ((IGamerules) ((IProperties)this.world).getProperties()).betaGamerules_setFallDamage(!((IGamerules) ((IProperties)this.world).getProperties()).betaGamerules_getFallDamage());
+            System.out.println("Fall Damage: " + ((IGamerules) ((IProperties)this.world).getProperties()).betaGamerules_getFallDamage());
         }
     }
 }
