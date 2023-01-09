@@ -26,6 +26,12 @@ public class MinecraftMixin {
 
             ((IGamerules) ((IProperties)this.world).getProperties()).betaGamerules_setFallDamage(!((IGamerules) ((IProperties)this.world).getProperties()).betaGamerules_getFallDamage());
             System.out.println("Fall Damage: " + ((IGamerules) ((IProperties)this.world).getProperties()).betaGamerules_getFallDamage());
+
+            ((IGamerules) ((IProperties)this.world).getProperties()).betaGamerules_setFireDamage(!((IGamerules) ((IProperties)this.world).getProperties()).betaGamerules_getFireDamage());
+            System.out.println("Fire Damage: " + ((IGamerules) ((IProperties)this.world).getProperties()).betaGamerules_getFireDamage());
+
+            ((IGamerules) ((IProperties)this.world).getProperties()).betaGamerules_setDrowningDamage(!((IGamerules) ((IProperties)this.world).getProperties()).betaGamerules_getDrowningDamage());
+            System.out.println("Drowning Damage: " + ((IGamerules) ((IProperties)this.world).getProperties()).betaGamerules_getDrowningDamage());
         }
     }
 }

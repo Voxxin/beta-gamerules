@@ -33,7 +33,7 @@ public class WorldMixin implements IProperties {
     // mobGriefing GameRule
     @Inject(at = @At("HEAD"), method = "method_187", cancellable = true)
     private void noExplode(Entity entity, double posX, double posY, double posZ, float explosionRadius, CallbackInfoReturnable<class_60> cir) {
-        if (entity instanceof class_114 && ((IGamerules)this.properties).betaGamerules_getDoHostileMobGriefing()) {
+        if (entity instanceof class_114 && !((IGamerules)this.properties).betaGamerules_getDoHostileMobGriefing()) {
             //Class 114 is the creeper mob class.
 
             /*
@@ -138,6 +138,22 @@ public class WorldMixin implements IProperties {
         if (((IGamerules)this.properties).betaGamerules_getDoDaylightCycle()) {
             return newTime;
         } else return this.properties.getTime();
+    }
+
+    @ModifyArg(method = "method_245", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/WorldProperties;setRainTime(I)V", ordinal = 2))
+    private int modifyRainTime(int newRaintime) {
+        if (((IGamerules)this.properties).betaGamerules_getDoWeatherCycle()) {
+            return newRaintime;
+        } else return this.properties.getRainTime();
+    }
+
+    // Setting and getting thundering time are the same named functions. Expect they work depending on if you have a variable defined inside the ()s.
+
+    @ModifyArg(method = "method_245", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/WorldProperties;getThunderTime(I)V", ordinal = 2))
+    private int modifyThunderingTime(int setThunderTime) {
+        if (((IGamerules)this.properties).betaGamerules_getDoWeatherCycle()) {
+            return setThunderTime;
+        } else return this.properties.getThunderTime();
     }
 
     @Override

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WorldProperties.class)
 public class WorldPropertiesMixin implements IGamerules {
-    private NbtCompound gamerules;
+    private NbtCompound gamerules = new NbtCompound();
     private boolean announceAdvancements = false;
     private boolean blockExplosionDropDecay = true;
     private boolean doDaylightCycle = true;
@@ -25,16 +25,15 @@ public class WorldPropertiesMixin implements IGamerules {
     private boolean fallDamage = true;
     private boolean fireDamage = true;
     private boolean keepInventory = false;
-    private boolean lavaSourceConversion = true;
-    private boolean logAdminCommands = true;
+    private boolean lavaSourceConversion = false;
+    private boolean logAdminCommands = false;
     private boolean mobExplosionDropDecay = true;
     //private boolean doMobGriefing;
     private boolean naturalRegeneration = true;
     private int playersSleepingPercentage = 100;
-    private boolean sendCommandFeedback = true;
-    private boolean showDeathMessages = true;
+    private boolean showDeathMessages = false;
     private int snowAccumulationHeight = 1;
-    private int spawnRadius = 10;
+    private int spawnRadius = 0;
     private boolean tntExplosionDropDecay = true;
     private boolean waterSourceConversion = true;
 
@@ -44,8 +43,8 @@ public class WorldPropertiesMixin implements IGamerules {
     private boolean doHostileMobGriefing = true;
     @Inject(at = @At("TAIL"), method = "Lnet/minecraft/world/WorldProperties;<init>(Lnet/minecraft/nbt/NbtCompound;)V")
     public void initializeWorldProperties(NbtCompound nbtCompound, CallbackInfo ci) {
-        if (nbtCompound.contains("gamerules")) {
-            this.gamerules = nbtCompound.getCompound("gamerules");
+        if (nbtCompound.contains("Gamerules")) {
+            this.gamerules = nbtCompound.getCompound("Gamerules");
 
             // Implements the gamerules if they exist.
             this.announceAdvancements = this.gamerules.getBoolean("announceAdvancements");
@@ -68,7 +67,6 @@ public class WorldPropertiesMixin implements IGamerules {
             //this.doMobGriefing = this.gamerules.getBoolean("doMobGriefing");
             this.naturalRegeneration = this.gamerules.getBoolean("naturalRegeneration");
             this.playersSleepingPercentage = this.gamerules.getInt("playersSleepingPercentage");
-            this.sendCommandFeedback = this.gamerules.getBoolean("sendCommandFeedback");
             this.showDeathMessages = this.gamerules.getBoolean("showDeathMessages");
             this.snowAccumulationHeight = this.gamerules.getInt("snowAccumulationHeight");
             this.spawnRadius = this.gamerules.getInt("spawnRadius");
@@ -79,6 +77,38 @@ public class WorldPropertiesMixin implements IGamerules {
             this.doNeutralMobGriefing = this.gamerules.getBoolean("doNeutralMobGriefing");
             this.doHostileMobGriefing = this.gamerules.getBoolean("doHostileMobGriefing");
         }
+    }
+
+    @Inject(at = @At("TAIL"), method = "updateProperties")
+    public void updateProperties(NbtCompound mainArg, NbtCompound secondaryArg, CallbackInfo ci) {
+        gamerules.putBoolean("announceAdvancements", this.announceAdvancements);
+        gamerules.putBoolean("blockExplosionDropDecay", this.blockExplosionDropDecay);
+        gamerules.putBoolean("doDaylightCycle", this.doDaylightCycle);
+        gamerules.putBoolean("doEntityDrops", this.doEntityDrops);
+        gamerules.putBoolean("doFireTick", this.doFireTick);
+        gamerules.putBoolean("doRespawnImmediately", this.doRespawnImmediately);
+        gamerules.putBoolean("doMobLoot", this.doMobLoot);
+        gamerules.putBoolean("doMobSpawning", this.doMobSpawning);
+        gamerules.putBoolean("doTileDrops", this.doTileDrops);
+        gamerules.putBoolean("doWeatherCycle", this.doWeatherCycle);
+        gamerules.putBoolean("drowningDamage", this.drowningDamage);
+        gamerules.putBoolean("fallDamage", this.fallDamage);
+        gamerules.putBoolean("fireDamage", this.fireDamage);
+        gamerules.putBoolean("keepInventory", this.keepInventory);
+        gamerules.putBoolean("lavaSourceConversion", this.lavaSourceConversion);
+        gamerules.putBoolean("logAdminCommands", this.logAdminCommands);
+        gamerules.putBoolean("mobExplosionDropDecay", this.mobExplosionDropDecay);
+        gamerules.putBoolean("naturalRegeneration", this.naturalRegeneration);
+        gamerules.putInt("playersSleepingPercentage", this.playersSleepingPercentage);
+        gamerules.putBoolean("showDeathMessages", this.showDeathMessages);
+        gamerules.putInt("spawnRadius", this.spawnRadius);
+        gamerules.putBoolean("tntExplosionDropDecay", this.tntExplosionDropDecay);
+        gamerules.putBoolean("waterSourceConversion", this.waterSourceConversion);
+        gamerules.putBoolean("doPassiveMobGriefing", this.doPassiveMobGriefing);
+        gamerules.putBoolean("doNeutralMobGriefing", this.doNeutralMobGriefing);
+        gamerules.putBoolean("doHostileMobGriefing", this.doHostileMobGriefing);
+
+        mainArg.put("Gamerules", gamerules);
     }
 
     @Override
@@ -150,7 +180,18 @@ public class WorldPropertiesMixin implements IGamerules {
     public boolean betaGamerules_getKeepInventory() {
         return this.keepInventory;
     }
-
+    @Override
+    public boolean betaGamerules_getLavaSourceConversion() {
+        return this.lavaSourceConversion;
+    }
+    @Override
+    public boolean betaGamerules_getLogAdminCommands() {
+        return this.logAdminCommands;
+    }
+    @Override
+    public boolean betaGamerules_getMobExplosionDropDecay() {
+        return this.mobExplosionDropDecay;
+    }
     @Override
     public boolean betaGamerules_getNaturalRegeneration() {
         return this.naturalRegeneration;
@@ -297,11 +338,6 @@ public class WorldPropertiesMixin implements IGamerules {
     }
 
     @Override
-    public String betaGamerules_getSendCommandFeedbackDescription() {
-        return "Changes if command feedback should be sent to the player.";
-    }
-
-    @Override
     public String betaGamerules_getShowDeathMessagesDescription() {
         return "Changes if death messages should be shown.";
     }
@@ -442,11 +478,6 @@ public class WorldPropertiesMixin implements IGamerules {
         this.playersSleepingPercentage = playersSleepingPercentage;
 
         return playersSleepingPercentage;
-    }
-
-    @Override
-    public void betaGamerules_setSendCommandFeedback(boolean sendCommandFeedback) {
-        this.sendCommandFeedback = sendCommandFeedback;
     }
 
     @Override

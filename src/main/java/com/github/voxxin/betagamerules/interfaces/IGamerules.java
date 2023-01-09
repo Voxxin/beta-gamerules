@@ -16,6 +16,12 @@ public interface IGamerules {
     public boolean betaGamerules_getFallDamage();
     public boolean betaGamerules_getFireDamage();
     public boolean betaGamerules_getKeepInventory();
+    public boolean betaGamerules_getLavaSourceConversion();
+
+    boolean betaGamerules_getLogAdminCommands();
+
+    boolean betaGamerules_getMobExplosionDropDecay();
+
     public boolean betaGamerules_getNaturalRegeneration();
     public int betaGamerules_getPlayerSleepingPercentage();
     public boolean betaGamerules_getShowDeathMessages();
@@ -45,7 +51,6 @@ public interface IGamerules {
     public String betaGamerules_getMobExplosionDropDecayDescription();
     public String betaGamerules_getNaturalRegenerationDescription();
     public String betaGamerules_getPlayersSleepingPercentageDescription();
-    public String betaGamerules_getSendCommandFeedbackDescription();
     public String betaGamerules_getShowDeathMessagesDescription();
     public String betaGamerules_getSnowAccumulationHeightDescription();
     public String betaGamerules_getSpawnRadiusDescription();
@@ -76,7 +81,6 @@ public interface IGamerules {
     public void betaGamerules_setMobExplosionDropDecay(boolean mobExplosionDropDecay);
     public void betaGamerules_setNaturalRegeneration(boolean naturalRegeneration);
     public int betaGamerules_setPlayersSleepingPercentage(int playersSleepingPercentage);
-    public void betaGamerules_setSendCommandFeedback(boolean sendCommandFeedback);
     public void betaGamerules_setShowDeathMessages(boolean showDeathMessages);
     public int betaGamerules_setSnowAccumulationHeight(int snowAccumulationHeight);
     public void betaGamerules_setSpawnRadius(int spawnRadius);
